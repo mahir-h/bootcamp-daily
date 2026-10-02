@@ -7,7 +7,7 @@
 // Bonus: also print the class (A/B/C) from the first octet.
 
 
-const ip = "172.16.a.1";
+const ip = "127.16.2.1";
 
 const splitParts = ip.split(".");
 
@@ -27,17 +27,23 @@ if (splitParts.length !==4){
 
     if(ipValidity) {
         console.log(`${ip} is VALID`);
+
+        // determine class A/B/C from first octet
+if (splitParts[0] <= 126 ){
+    console.log(`${ip} is Class A`);
+} else if (splitParts[0] >= 128 && splitParts[0] <= 191) {
+    console.log(`${ip} is Class B`);
+} else if (splitParts[0] >= 192 && splitParts[0] <= 223) {
+    console.log(`${ip} is Class C`);
+} else {
+    console.log("Others")
+}
+
+
+
     }else{
         console.log(`${ip} is INVALID`);
     }
 
 }
 
-// determine class A/B/C from first octet
-if (splitParts[0] <= 126 ){
-    console.log(`${ip} is Class A`);
-} else if (splitParts[0] >= 128 && splitParts[0] <= 191) {
-    console.log(`${ip} is Class B`);
-} else {
-    console.log(`${ip} is Class C`);
-}

@@ -26,5 +26,5 @@ for (let i = 0 ; i <pings.length; i++){
 
 console.log(`The fastest ping is ${fastest} ms`);
 console.log(`The slowest ping is ${slowest} ms`);
-console.log(`the average ping is ${total/pings.length} ms`);
+console.log(`the average ping is ${(total/pings.length).toFixed(1)} ms`);
 console.log(`Number of pings over 100 ms: ${countOver100}`);

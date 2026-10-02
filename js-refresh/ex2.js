@@ -26,6 +26,6 @@ if (port < 1 || port > 65535) {
             console.log("RDP");
             break;
         default:
-            console.log("unkown");
+            console.log("unknown");
     }
 }

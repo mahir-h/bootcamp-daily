@@ -42,8 +42,36 @@ function updateAmount(list, id, newAmount){
 const updated = updateAmount(transactions,3,50);
 console.log(updated);
 console.log(transactions);
+
 // 3- Group by category: write totalsByCategory(list). It returns an object like { food: 70.4, transport: 4.2, rent: 450 } (use reduce with an object as the accumulator). Then use Object.entries to print it sorted from highest to lowest.
 
+function totalsByCategory(list){
+    return list.reduce((acc,{category,amount}) => {acc[category] = (acc[category] || 0) + amount; return acc;}, {});
+}
+console.log(totalsByCategory(transactions));
+
+// To print/sort by highest to lowest
+const totals = totalsByCategory(transactions);
+const sorted = Object.entries(totals);
+
+sorted.sort((a,b) => b[1] - a[1]);
+
+sorted.forEach(([category, total]) => {
+    console.log(`${category}: $${total.toFixed(2)}`);
+})
+
 // 4- JSON round-trip: JSON.stringify the totals, write the string to totals.json with require("fs").writeFileSync, then read it back with readFileSync + JSON.parse and print it.
+
+//a - file system module needs to be called upon using require
+const fs = require("fs");
+// totals gets converted from Object to string
+const tjson = JSON.stringify(totals);
+// the string is written in folder where the node file is
+fs.writeFileSync("totals.json", tjson);
+//the file tjson gets read and the json converts the string back to object using parse.
+const loaded = JSON.parse(fs.readFileSync("totals.json"));
+console.log(loaded);
+
+
 
 // 5- Stretch: write safeParse(text). It returns { ok: true, data } or { ok: false, error }, and it never throws. Test it with valid JSON, "{bad}", and an empty string. You'll reuse this in spend-report this weekend.

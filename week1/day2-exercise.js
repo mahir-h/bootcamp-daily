@@ -73,5 +73,27 @@ const loaded = JSON.parse(fs.readFileSync("totals.json"));
 console.log(loaded);
 
 
-
 // 5- Stretch: write safeParse(text). It returns { ok: true, data } or { ok: false, error }, and it never throws. Test it with valid JSON, "{bad}", and an empty string. You'll reuse this in spend-report this weekend.
+
+function safeParse(text){
+    try{
+        const data = JSON.parse(text);
+        return {ok:true, data};
+    } catch (err){
+        return {ok:false, error: err.message};
+    }
+}
+
+console.log(safeParse('{"food": 70.4}'));
+console.log(safeParse("{bad}"));
+console.log(safeParse(""));
+
+// how safeParse will be used in spend-report
+
+const result = safeParse(fs.readFileSync("totals.json", "utf8"));
+console.log(result);
+if(result.ok){
+    console.log("Rent total: ", result.data.rent);
+} else{
+    console.log("Could not read file:", result.error);
+}

@@ -1,0 +1,6 @@
+[
+    {"id": 1,"product": "Coffee Mug" ,"qty": 2 ,"price": 45},
+    {"id": 2,"product": "Mug" ,"qty": 1 ,"price": 12},
+    {"id": 3,"product": "TeaBox" ,"qty": 3 ,"price": 9.99},
+    {"id": 4,"product": "Milk frother" ,"qty": 1 ,"price": 45}
+]

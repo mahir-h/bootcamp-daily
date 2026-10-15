@@ -41,27 +41,41 @@
 
 // 3 - Read, process, write. Create orders.json, an array of { id, product, qty, price }. Use fs.readFile with a callback to load it, calculate the total revenue, then use fs.writeFile with a callback to save summary.json as { orderCount, revenue }. Handle errors at every step (try a missing file and some broken JSON).
 
-const fs = require('fs');
-fs.readFile('orders.json','utf8',(err,data) => {
-    if(err) return console.log(err.message);
+// const fs = require('fs');
+// fs.readFile('orders.json','utf8',(err,data) => {
+//     if(err) return console.log(err.message);
 
-    let orders;
-    try{
-        orders = JSON.parse(data);
-    }catch(e){
-    return console.log(e.message);
+//     let orders;
+//     try{
+//         orders = JSON.parse(data);
+//     }catch(e){
+//     return console.log(e.message);
+//     }
+
+//     const revenue = orders.reduce((sum,o) => sum + (o.qty * o.price), 0);
+//     const summary = {orderCount: orders.length, revenue};
+
+//     fs.writeFile('summary.json',JSON.stringify(summary,null,2),(err)=> {
+//     if (err) return console.log(err.message);
+//     console.log(summary);
+//     });
+
+// });
+
+//     console.log("Reading order...");
+
+
+// 4 - Make a function slowSum() that loops 3 billion times. Start a setInterval that prints “tick” every 200ms, then call slowSum() after 1 second. Watch the ticks stop. Write 2–3 lines explaining why in your own words. That’s the event loop being blocked.
+
+function slowSum(){
+    let total = 0;
+    for(let i = 0; i <3_000_000_000 ; i++){
+       total += i;
     }
+    return total;
+};
 
-    const revenue = orders.reduce((sum,o) => sum + (o.qty * o.price), 0);
-    const summary = {orderCount: orders.length, revenue};
 
-    fs.writeFile('summary.json',JSON.stringify(summary,null,2),(err)=> {
-    if (err) return console.log(err.message);
-    console.log(summary);
-    });
-
-});
-
-    console.log("Reading order...");
-
+setInterval(() => console.log('tick'),200);
+setTimeout(()  => console.log(slowSum()),1000);
 

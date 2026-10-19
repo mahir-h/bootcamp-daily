@@ -52,22 +52,48 @@ async function getTasks(ids){
 
 
 //Exercise 2
-async function showUserTasks(id){
+// async function showUserTasks(id){
     
-        const user = await getUser(id);
-        const tasks = await getTasks(user.taskIds);
-        const done = tasks.filter(t => t.done).length;
-        return {user:user.name, done: done, tasks: tasks};
-        // console.log(`${user.name}: ${done} of ${tasks.length} completed`);
+//         const user = await getUser(id);
+//         const tasks = await getTasks(user.taskIds);
+//         const done = tasks.filter(t => t.done).length;
+//         return {user:user.name, done: done, tasks: tasks};
+//         // console.log(`${user.name}: ${done} of ${tasks.length} completed`);
+// }
+
+// function loadDashboard(id){
+//     console.log("Loading...");
+//     return showUserTasks(id);
+// }
+
+// loadDashboard(2)
+//     .then(t => console.log(`${t.user}: ${t.done} of ${t.tasks.length} completed`))
+//     .catch(err => console.log(`User does not exist: ${err.message}`))
+//     .finally(() => console.log(`Finished`));
+
+
+// Exercise 3
+
+const ids = [1, 2, 3];
+
+console.time('seq');
+for (const id of ids) {
+  const product = await getProduct(id);
+  console.log(product.name);
+}
+console.timeEnd('seq');
+
+console.time('parallel');
+const products = await Promise.all(ids.map(id => getProduct(id)));
+products.forEach(p => console.log(p.name));
+console.timeEnd('parallel');
+
+const ranIDS = [1,2,45];
+try{
+    await Promise.all(ranIDS.map(id => getProduct(id)));
+}catch(err){
+    console.log(err.message);
 }
 
-function loadDashboard(id){
-    console.log("Loading...");
-    return showUserTasks(id);
-}
-
-loadDashboard(2)
-    .then(t => console.log(`${t.user}: ${t.done} of ${t.tasks.length} completed`))
-    .catch(err => console.log(`User does not exist: ${err.message}`))
-    .finally(() => console.log(`Finished`));
+const results = await Promise.allSettled(ranIDS.map(id => getProduct(id)));
 

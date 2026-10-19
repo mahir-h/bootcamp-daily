@@ -38,18 +38,36 @@ async function getTasks(ids){
 //     .then(result => console.log(`${result.name}: ${result.done} of ${result.total}`))
 //     .catch(err => console.log(err.message));
 
+// async function showUserTasks(id){
+//     try{
+//         const user = await getUser(id);
+//         const tasks = await getTasks(user.taskIds);
+//         const done = tasks.filter(t => t.done).length;
+//         return {user:user.name, done: done, tasks: tasks};
+//         // console.log(`${user.name}: ${done} of ${tasks.length} completed`);
+//     }catch(err){
+//         console.log(err.message);
+//     }
+// }
+
+
+//Exercise 2
 async function showUserTasks(id){
-    try{
+    
         const user = await getUser(id);
         const tasks = await getTasks(user.taskIds);
         const done = tasks.filter(t => t.done).length;
-        console.log(`${user.name}: ${done} of ${tasks.length} completed`);
-    }catch(err){
-        console.log(err.message);
-    }
+        return {user:user.name, done: done, tasks: tasks};
+        // console.log(`${user.name}: ${done} of ${tasks.length} completed`);
 }
 
+function loadDashboard(id){
+    console.log("Loading...");
+    return showUserTasks(id);
+}
 
-showUserTasks(1);
-showUserTasks(2);
+loadDashboard(2)
+    .then(t => console.log(`${t.user}: ${t.done} of ${t.tasks.length} completed`))
+    .catch(err => console.log(`User does not exist: ${err.message}`))
+    .finally(() => console.log(`Finished`));
 

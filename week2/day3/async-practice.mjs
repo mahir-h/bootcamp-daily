@@ -74,37 +74,73 @@ async function getTasks(ids){
 
 // Exercise 3
 
-const ids = [1, 2, 3];
+// const ids = [1, 2, 3];
 
-console.time('seq');
-for (const id of ids) {
-  const product = await getProduct(id);
-  console.log(product.name);
+// console.time('seq');
+// for (const id of ids) {
+//   const product = await getProduct(id);
+//   console.log(product.name);
+// }
+// console.timeEnd('seq');
+
+// console.time('parallel');
+// const products = await Promise.all(ids.map(id => getProduct(id)));
+// products.forEach(p => console.log(p.name));
+// console.timeEnd('parallel');
+
+// const ranIDS = [1,2,45];
+// try{
+//     await Promise.all(ranIDS.map(id => getProduct(id)));
+// }catch(err){
+//     console.log(err.message);
+// }
+
+// const results = await Promise.allSettled(ranIDS.map(id => getProduct(id)));
+
+// const report = results.map((r,i) => 
+// r.status === 'fulfilled' ? `${r.value.name} `: `${ranIDS[i]} X ${r.reason.message}`
+// );
+
+// console.log(report.join(','));
+
+// const total = results
+//     .filter(r => r.status === 'fulfilled')
+//     .reduce((sum,r) => sum + r.value.price, 0);
+
+// console.log(`${total}`);
+
+// Exercise 4
+
+async function flakyPayment(){
+    await wait(200);
+    if (Math.random() < 0.6)throw new Error ('payment server busy');
+    return {status: 'paid', amount: 370};
 }
-console.timeEnd('seq');
 
-console.time('parallel');
-const products = await Promise.all(ids.map(id => getProduct(id)));
-products.forEach(p => console.log(p.name));
-console.timeEnd('parallel');
+async function withRetry(fn, attempts = 3, delayMs = 500){
+    let lastError;
 
-const ranIDS = [1,2,45];
-try{
-    await Promise.all(ranIDS.map(id => getProduct(id)));
+    for(let i= 1; i <= attempts; i++){
+        try{
+            console.log(`Attempt ${i}...`);
+            return await fn();
+        }catch(err){
+            lastError = err.message;
+            console.log(`   failed:  ${lastError}`);
+            if ( i< attempts) await wait(delayMs);
+
+        }
+    }
+
+    throw new Error (lastError);
+
+}
+
+//Test
+
+try {
+    const result = await withRetry(flakyPayment);
+    console.log('Success: ', result);
 }catch(err){
-    console.log(err.message);
+    console.log('Gave up: ', err.message);
 }
-
-const results = await Promise.allSettled(ranIDS.map(id => getProduct(id)));
-
-const report = results.map((r,i) => 
-r.status === 'fulfilled' ? `${r.value.name} `: `${ranIDS[i]} X ${r.reason.message}`
-);
-
-console.log(report.join(','));
-
-const total = results
-    .filter(r => r.status === 'fulfilled')
-    .reduce((sum,r) => sum + r.value.price, 0);
-
-console.log(`${total}`);

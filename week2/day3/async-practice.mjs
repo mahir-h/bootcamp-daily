@@ -97,3 +97,14 @@ try{
 
 const results = await Promise.allSettled(ranIDS.map(id => getProduct(id)));
 
+const report = results.map((r,i) => 
+r.status === 'fulfilled' ? `${r.value.name} `: `${ranIDS[i]} X ${r.reason.message}`
+);
+
+console.log(report.join(','));
+
+const total = results
+    .filter(r => r.status === 'fulfilled')
+    .reduce((sum,r) => sum + r.value.price, 0);
+
+console.log(`${total}`);

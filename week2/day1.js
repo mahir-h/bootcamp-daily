@@ -79,3 +79,5 @@ function slowSum(){
 setInterval(() => console.log('tick'),200);
 setTimeout(()  => console.log(slowSum()),1000);
 
+// the tick stops because it is doing the calculation for slowSum which is a bad waiter. 
+

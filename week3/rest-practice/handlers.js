@@ -33,10 +33,18 @@ function createTasks(body){
 
 // console.log(createTasks({title: "Gym"}));
 
+function deleteTask(id){
+    const index = tasks.findIndex(t=> t.id ===id);
+    if(index=== -1){
+        return {status: 404, body: {error: "task id doesnt exist"}};
+    }
+    tasks.splice(index,1);
+    return {status: 204};
+}
 
+function updateTask(id,body){
+    
+}
 
-
-
-
-console.log(listTasks({}));
+// console.log(listTasks({}));
 

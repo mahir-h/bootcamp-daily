@@ -21,4 +21,21 @@ Get /projects/3/tasks
 Get /tasks?priority=high
 
 
+# Exercise-2
+## For a successful list
+status = 200
 
+## For a task created
+status = 201
+
+## For a task deleted
+status = 204
+
+## For tasks that doesnt exist
+status = 404
+
+## POST with no title
+status = 400
+
+## If server crashed
+status = 500

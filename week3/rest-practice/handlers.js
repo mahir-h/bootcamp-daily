@@ -50,7 +50,7 @@ function updateTask(id,body){
     }
 
     const allowed = ["todo","doing","done"];
-    if(!allowed.includes(body.status)){
+    if(body.status !== undefined && !allowed.includes(body.status)){
         return {status: 400, body: {error: "Accepted status are todo,doing and done"}};
     }
 

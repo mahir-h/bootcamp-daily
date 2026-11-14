@@ -14,6 +14,29 @@ function listTasks(query){
     return {status: 200, body: tasks};
 }
 
+// console.log(listTasks({status: "done"}));
+// console.log(listTasks({status: "nope"}));
+
+function createTasks(body){
+    
+    if(!body.title || body.title.trim() ===""){
+        return { status: 400, body: {error: "title is required"}};
+    }
+
+    const id = tasks.length ? Math.max(...tasks.map(t => t.id)) + 1 : 1;
+    
+    const newTask = {id, title: body.title, status: "todo", priority: body.priority || "medium"};
+
+    tasks.push(newTask);
+    return {status: 201, body: newTask};
+}
+
+// console.log(createTasks({title: "Gym"}));
+
+
+
+
+
+
 console.log(listTasks({}));
-console.log(listTasks({status: "done"}));
-console.log(listTasks({status: "nope"}));
+

@@ -36,15 +36,29 @@ function createTasks(body){
 function deleteTask(id){
     const index = tasks.findIndex(t=> t.id ===id);
     if(index=== -1){
-        return {status: 404, body: {error: "task id doesnt exist"}};
+        return {status: 404, body: {error: "Task id doesnt exist"}};
     }
     tasks.splice(index,1);
     return {status: 204};
 }
 
 function updateTask(id,body){
-    
+    const task= tasks.find(t => t.id === id);
+
+    if(!task){
+        return {status: 404, body: {error: "Task not found"}};
+    }
+
+    const allowed = ["todo","doing","done"];
+    if(!allowed.includes(body.status)){
+        return {status: 400, body: {error: "Accepted status are todo,doing and done"}};
+    }
+
+    Object.assign(task,body);
+    return {status: 200, body: task};
 }
+
+// console.log(updateTask(99,{}));
 
 // console.log(listTasks({}));
 
